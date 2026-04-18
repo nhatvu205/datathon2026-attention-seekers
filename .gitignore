@@ -1,1 +1,58 @@
+# Data — không commit CSV lớn (tải từ Kaggle)
+data/*.csv
+data/raw/
+data/interim/
+data/processed/
+!data/README.md
+!data/.gitkeep
+
+# Models / experiments outputs
+models/*.pkl
+models/*.joblib
+models/*.cbm
+models/*.txt
+models/*.json
+experiments/*.csv
+experiments/*.log
+!models/.gitkeep
+!experiments/.gitkeep
+
+# Submissions
+submissions/*.csv
+!submissions/.gitkeep
+
+# Report build artifacts
+reports/paper/*.aux
+reports/paper/*.log
+reports/paper/*.out
+reports/paper/*.toc
+reports/paper/*.bbl
+reports/paper/*.blg
+reports/paper/*.fls
+reports/paper/*.fdb_latexmk
+reports/paper/*.synctex.gz
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Jupyter / IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Competition PDF (giữ local, không đẩy lên public repo vì bản quyền)
 De-thi-vong-1.pdf
