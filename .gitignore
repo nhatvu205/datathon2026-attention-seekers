@@ -56,3 +56,4 @@ ENV/
 
 # Competition PDF (giữ local, không đẩy lên public repo vì bản quyền)
 De-thi-vong-1.pdf
+.claude/
