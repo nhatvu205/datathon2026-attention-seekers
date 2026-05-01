@@ -59,6 +59,23 @@ FOCUSED_STACK_FE_COLUMNS: frozenset[str] = frozenset(
     }
 )
 
+# Bỏ web traffic + inventory (giảm signal fill YoY/ffill trên test); giữ promo + orders + margin.
+PROMO_CORE_FE_COLUMNS: frozenset[str] = frozenset(
+    c
+    for c in FOCUSED_STACK_FE_COLUMNS
+    if c
+    not in {
+        "page_views_lag1",
+        "page_views_roll7",
+        "sessions_total_lag1",
+        "sessions_total_roll7",
+        "inv_overstock_pct",
+        "inv_stock_on_hand",
+        "sw_stockout_pct",
+        "sw_fill_rate",
+    }
+)
+
 
 def resolve_first(paths: Iterable[str], label: str) -> str | None:
     for p in paths:
@@ -76,7 +93,7 @@ def select_fe_columns_for_stack(
     """Wide FE (no rev_/cogs_ lags), then optional ``focused`` subset for stacking GBMs.
 
     ``fe_stack_mode``: ``"full"`` = all safe wide columns; ``"focused"`` = intersection with
-    :data:`FOCUSED_STACK_FE_COLUMNS` (SHAP / gain-driven shortlist).
+    :data:`FOCUSED_STACK_FE_COLUMNS`; ``"promo_core"`` = :data:`PROMO_CORE_FE_COLUMNS` (bỏ traffic/inventory).
     """
     skip = set(static_features) | {
         "Date",
@@ -131,10 +148,13 @@ def select_fe_columns_for_stack(
     wide = sorted(set(out))
     if fe_stack_mode == "full":
         return wide
-    if fe_stack_mode != "focused":
-        raise ValueError(f"fe_stack_mode must be 'full' or 'focused', got {fe_stack_mode!r}")
-    focused = [c for c in wide if c in FOCUSED_STACK_FE_COLUMNS]
-    return sorted(focused)
+    if fe_stack_mode == "focused":
+        return sorted(c for c in wide if c in FOCUSED_STACK_FE_COLUMNS)
+    if fe_stack_mode == "promo_core":
+        return sorted(c for c in wide if c in PROMO_CORE_FE_COLUMNS)
+    raise ValueError(
+        f"fe_stack_mode must be 'full', 'focused', or 'promo_core', got {fe_stack_mode!r}"
+    )
 
 
 def merge_parquet_fe(
