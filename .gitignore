@@ -1,11 +1,11 @@
 # Data — không commit CSV lớn (tải từ Kaggle)
 data/*.csv
-data/raw/
-data/interim/
-data/processed/
+data/data_raw/
+data/data_cleaned/
 !data/README.md
 !data/.gitkeep
-
+catboost_info/
+charts/
 # Models / experiments outputs
 models/*.pkl
 models/*.joblib
