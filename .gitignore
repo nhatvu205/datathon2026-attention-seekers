@@ -18,7 +18,6 @@ experiments/*.log
 !experiments/.gitkeep
 
 # Submissions
-submissions/*.csv
 !submissions/.gitkeep
 
 # Report build artifacts
